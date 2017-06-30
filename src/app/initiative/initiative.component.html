@@ -1,0 +1,55 @@
+<h1>Initiative</h1>
+<div class="form-group">
+  <label for="name">Name:</label>
+  <input [(ngModel)]="name" (keyup.enter)="addMember(name, roll);" id="name" type="text" class="form-control">
+</div>
+<div class="form-group">
+  <label for="name">Roll:</label>
+  <input [(ngModel)]="roll" #initRef (keyup.enter)="addMember(name, roll);" id="name" type="text" class="form-control">
+</div>
+<div class="row">
+  <div class="col-xs-offset-6 col-xs-4">
+    <button class="btn btn-info" type="button" 
+      (click)="addMember(name, roll);" 
+      style="float:right">Add Member</button>
+  </div>
+  <div class="col-xs-2" style="padding-left:0">
+    <button class="btn btn-danger" type="button" (click)="clearList()" style="float:right">Clear List</button>   
+  </div>
+</div>
+<div style="margin-top: 10px;">
+  <table class="table">
+    <thead>
+      <tr>
+        <td width="20%">
+          Initiative
+        </td>
+        <td width="35%">
+          Name
+        </td>
+        <td width="15%">
+          Remove
+        </td>
+        <td width="15%">
+          Down
+        </td>
+        <td width="15%">
+          Revive
+        </td>                                
+      </tr>
+    </thead>
+    <tr *ngFor="let member of initiativeList | async" [ngClass]="{'success': member.alive, 'danger': !member.alive}">
+      <td width="20%" style="font-size: 20px">{{member.roll}}</td>
+      <td width="50%" style="font-size: 20px">{{member.name}}</td>
+      <td width="10%">
+        <button (click)="removeMember(member.name);" type="button"class="glyphicon glyphicon-remove table-button"></button>
+      </td>
+      <td width="10%">
+        <button (click)="killMember(member.name);" type="button" class="glyphicon glyphicon-fire table-button"></button>
+      </td>
+      <td width="10%">
+        <button (click)="reviveMember(member.name);" type="button" class="glyphicon glyphicon-leaf table-button"></button>
+      </td>     
+    </tr>
+  </table>
+</div>
