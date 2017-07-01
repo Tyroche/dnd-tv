@@ -16,7 +16,7 @@
 </div>
 <div class="row">
     <div *ngFor="let embed of embedFramesYoutube | async" class="col-xs-3">
-        <iframe src="https://www.youtube.com/embed/6vCxBQy2SOk?ecver=2" frameborder="0"></iframe>
+        <app-youtube-embed [id]="embed.id"></app-youtube-embed>
     </div>
 </div>
 
