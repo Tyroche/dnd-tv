@@ -29,7 +29,6 @@ export class SoundComponent implements OnInit {
     const embedData = this.extractEmbedData(info);
 
     if (embedData) {
-      console.log(embedData);
       this.store.dispatch({type: BOOTCAMP_ACTIONS.ADD_MEMBER, payload: embedData});
     }
   }

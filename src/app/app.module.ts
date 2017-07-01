@@ -10,12 +10,14 @@ import { SoundComponent } from './sound/sound.component';
 import { StoreModule } from '@ngrx/store';
 import { initiativeListReducer } from './state/initiative-list';
 import { bootcampListReducer } from './state/bootcamp-list';
+import { BootcampEmbedComponent } from './sound/bootcamp-embed/bootcamp-embed.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     InitiativeComponent,
     SoundComponent,
+    BootcampEmbedComponent,
   ],
   imports: [
     BrowserModule,
