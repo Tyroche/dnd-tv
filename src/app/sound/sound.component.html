@@ -1,3 +1,22 @@
-<input [(ngModel)]="frameInfo" type="text" (keyup.enter)="addFrame(frameInfo); frameInfo = ''"/>
-<app-bootcamp-embed *ngFor="let embed of embedFrames | async" [album]="embed.album" [song]="embed.song"></app-bootcamp-embed>
+<h1>Sound</h1>
+
+<h3>Bootcamp</h3>
+<div class="form-group">
+    <label for="bootcamp-embed">Bootcamp Embed link:</label>
+    <input id="bootcamp-embed" class="form-control" [(ngModel)]="bootcampInput" type="text" 
+    (keyup.enter)="addFrame(bootcampInput, EMBEDTYPES.BOOTCAMP); bootcampInput = ''"/>
+</div>
+<app-bootcamp-embed *ngFor="let embed of embedFramesBootcamp | async" [album]="embed.album" [song]="embed.song"></app-bootcamp-embed>
+
+<h3>Youtube</h3>
+<div class="form-group">
+    <label for="youtube-embed">Youtube link:</label>
+    <input id="youtube-embed" class="form-control" [(ngModel)]="youtubeInput" type="text" 
+    (keyup.enter)="addFrame(youtubeInput, EMBEDTYPES.YOUTUBE); youtubeInput = ''"/>
+</div>
+<div class="row">
+    <div *ngFor="let embed of embedFramesYoutube | async" class="col-xs-3">
+        <iframe src="https://www.youtube.com/embed/6vCxBQy2SOk?ecver=2" frameborder="0"></iframe>
+    </div>
+</div>
 

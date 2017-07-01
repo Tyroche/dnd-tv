@@ -10,7 +10,9 @@ import { SoundComponent } from './sound/sound.component';
 import { StoreModule } from '@ngrx/store';
 import { initiativeListReducer } from './state/initiative-list';
 import { bootcampListReducer } from './state/bootcamp-list';
+import { youtubeListReducer } from './state/youtube-list';
 import { BootcampEmbedComponent } from './sound/bootcamp-embed/bootcamp-embed.component';
+import { YoutubeEmbedComponent } from './sound/youtube-embed/youtube-embed.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import { BootcampEmbedComponent } from './sound/bootcamp-embed/bootcamp-embed.co
     InitiativeComponent,
     SoundComponent,
     BootcampEmbedComponent,
+    YoutubeEmbedComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,7 +28,8 @@ import { BootcampEmbedComponent } from './sound/bootcamp-embed/bootcamp-embed.co
     FormsModule,
     StoreModule.provideStore({
       initiativeList: initiativeListReducer,
-      bootcampList: bootcampListReducer
+      bootcampList: bootcampListReducer,
+      youtubeList: youtubeListReducer
     })
   ],
   providers: [],

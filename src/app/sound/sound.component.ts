@@ -4,6 +4,7 @@ import { Http } from '@angular/http';
 import { Store } from '@ngrx/store';
 import { AppState } from '../state/app-state';
 import { BOOTCAMP_ACTIONS } from '../state/bootcamp-list';
+import { YOUTUBE_ACTIONS } from '../state/youtube-list';
 
 @Component({
   selector: 'app-sound',
@@ -12,36 +13,55 @@ import { BOOTCAMP_ACTIONS } from '../state/bootcamp-list';
 })
 export class SoundComponent implements OnInit {
 
-  private albumNumberRegex = /album=(\d+)/;
-  private songNumberRegex = /track=(\d+)/;
+  public EMBEDTYPES = {
+    BOOTCAMP: 'bootcamp',
+    YOUTUBE: 'youtube'
+  }
 
-  public frameInfo: string;
+  public bootcampInput: string;
+  public youtubeInput: string;
 
-  public embedFrames;
+  public embedFramesBootcamp;
+  public embedFramesYoutube;
 
   constructor(private http: Http, private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.embedFrames = this.store.select('bootcampList');
+    this.embedFramesBootcamp = this.store.select('bootcampList');
+    this.embedFramesYoutube = this.store.select('youtubeList');
   }
 
-  public addFrame(info: string) {
-    const embedData = this.extractEmbedData(info);
+  public addFrame(info: string, embedType: string) {
+    const embedData = this.extractEmbedData(info, embedType);
 
     if (embedData) {
-      this.store.dispatch({type: BOOTCAMP_ACTIONS.ADD_MEMBER, payload: embedData});
+      const actionType = embedData.type === this.EMBEDTYPES.BOOTCAMP 
+                         ? BOOTCAMP_ACTIONS.ADD_MEMBER
+                         : YOUTUBE_ACTIONS.ADD_MEMBER;
+      this.store.dispatch({type: actionType, payload: embedData});
     }
   }
 
-  private extractEmbedData(data: string) {
-    let album = data.match(this.albumNumberRegex);
-    let song = data.match(this.songNumberRegex);
+  private extractEmbedData(data: string, embedType: string) {
+    switch (embedType) {
+      case this.EMBEDTYPES.BOOTCAMP:
+        const album = data.match(/album=(\d+)/);
+        const song = data.match(/track=(\d+)/);
 
-    if (!album || !song) return;
+        if (!album || !song) return;
+        return {
+          album: album[1],
+          song: song[1],
+          type: this.EMBEDTYPES.BOOTCAMP
+        }
+      case this.EMBEDTYPES.YOUTUBE:
+        const match = data.match(/^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
 
-    return {
-      album: album[1],
-      song: song[1]
+        if(!match || match[2].length != 11) return;
+        return {
+          id: match[2],
+          type: this.EMBEDTYPES.YOUTUBE
+        }
     }
   }
 }

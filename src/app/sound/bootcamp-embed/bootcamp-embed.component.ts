@@ -21,7 +21,6 @@ export class BootcampEmbedComponent implements OnInit {
       this.errorOccured = true;
     } else {
       this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(`https://bandcamp.com/EmbeddedPlayer/album=${this.album}/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/track=${this.song}/transparent=true/`);
-      console.log(this.iframeSrc);
     }
   }
 
