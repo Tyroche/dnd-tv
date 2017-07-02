@@ -35,7 +35,7 @@ import { YoutubeListEffects } from './state/youtube-list-effects';
       bootcampList: bootcampListReducer,
       youtubeList: youtubeListReducer
     }),
-    EffectsModule.run(YoutubeListEffects)
+    EffectsModule.runAfterBootstrap(YoutubeListEffects)
   ],
   providers: [],
   bootstrap: [AppComponent]

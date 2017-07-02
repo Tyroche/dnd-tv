@@ -36,6 +36,8 @@ export class SoundComponent implements OnInit {
     this.embedFramesBootcamp = this.store.select('bootcampList');
     this.embedFramesYoutube = this.store.select('youtubeList');
 
+    this.store.dispatch({type: YOUTUBE_ACTIONS.LOAD_LIST_EFFECT});
+
     // const testYoutube = {id: '6vCxBQy2SOk'};
     // db.find(testYoutube, (err, ret) => {
     //   if (err) console.error(err);
