@@ -6,10 +6,6 @@ import { AppState } from '../state/app-state';
 import { BOOTCAMP_ACTIONS } from '../state/bootcamp-list';
 import { YOUTUBE_ACTIONS } from '../state/youtube-list';
 
-import * as Datastore from 'nedb';
-
-const db = new Datastore({filename: './dnd-tv-db', autoload: true})
-
 @Component({
   selector: 'app-sound',
   templateUrl: './sound.component.html',
@@ -29,30 +25,13 @@ export class SoundComponent implements OnInit {
   public embedFramesYoutube;
 
   constructor(private http: Http,
-              private store: Store<AppState>,
-              private cd: ChangeDetectorRef) { }
+              private store: Store<AppState>) { }
 
   ngOnInit() {
     this.embedFramesBootcamp = this.store.select('bootcampList');
     this.embedFramesYoutube = this.store.select('youtubeList');
 
-    this.store.dispatch({type: YOUTUBE_ACTIONS.LOAD_LIST_EFFECT});
-
-    // const testYoutube = {id: '6vCxBQy2SOk'};
-    // db.find(testYoutube, (err, ret) => {
-    //   if (err) console.error(err);
-
-    //   if (ret.length === 0) {
-    //     db.insert(testYoutube);
-    //   }
-    //   else {
-    //     for (let id of ret) {
-    //       console.log("dispatching: ", {type: this.EMBEDTYPES.YOUTUBE, payload: {id: id.id, type: this.EMBEDTYPES.YOUTUBE}})
-    //       this.store.dispatch({type: YOUTUBE_ACTIONS.ADD_MEMBER, payload: {id: id.id, type: this.EMBEDTYPES.YOUTUBE}});
-    //     }
-    //     this.cd.detectChanges();
-    //   }
-    // });
+    this.store.dispatch({type: YOUTUBE_ACTIONS.EFFECTS.LOAD_LIST});
   }
 
   public addFrame(info: string, embedType: string) {
@@ -61,7 +40,7 @@ export class SoundComponent implements OnInit {
     if (embedData) {
       const actionType = embedData.type === this.EMBEDTYPES.BOOTCAMP
                          ? BOOTCAMP_ACTIONS.ADD_MEMBER
-                         : YOUTUBE_ACTIONS.ADD_MEMBER;
+                         : YOUTUBE_ACTIONS.EFFECTS.SAVE_MEMBER;
       this.store.dispatch({type: actionType, payload: embedData});
     }
   }

@@ -2,7 +2,6 @@ import {Effect, Actions, toPayload} from '@ngrx/effects';
 import {Injectable, NgZone} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
-
 import { YOUTUBE_ACTIONS } from './youtube-list';
 
 import * as Datastore from 'nedb';
@@ -18,36 +17,37 @@ const EMBEDTYPES = {
 export class YoutubeListEffects {
 
   @Effect() addMemberSave$ = this.action$
-                             .ofType(YOUTUBE_ACTIONS.ADD_MEMBER)
+                             .ofType(YOUTUBE_ACTIONS.EFFECTS.SAVE_MEMBER)
                              .map(toPayload)
                              .switchMap(payload => {
-                                 const obs = new Subject();
-                                 db.find({id: payload.id, type: EMBEDTYPES.YOUTUBE}, (err, ret) => {
-                                     console.log("finding:", payload.id);
-                                     //ID prese
+                                 let obs = new Subject();
+                                 db.find(payload, (err, ret) => {
                                      if (ret.length > 0) {
-                                        console.log("found:", ret[0]);
-                                        obs.next(payload);
+                                        this.zone.run(() => {
+                                            obs.next({type: YOUTUBE_ACTIONS.ACTIONS.ADD_MEMBER, payload: payload});
+                                            obs = null;
+                                        });
                                      }
                                      else {
-                                         console.log("inserting: ", payload.id)
-                                         db.insert({id: payload.id, type: EMBEDTYPES.YOUTUBE}, () => {
-                                             console.log("inserted: ", payload.id)
-                                             obs.next(payload);
-                                         })
+                                         db.insert(payload, () => {
+                                             this.zone.run(() => {
+                                                obs.next({type: YOUTUBE_ACTIONS.ACTIONS.ADD_MEMBER, payload: payload});
+                                                obs = null;
+                                             });
+                                         });
                                      }
                                  });
                                  return obs;
                              });
 
   @Effect() loadMemberList$ = this.action$
-                             .ofType(YOUTUBE_ACTIONS.LOAD_LIST_EFFECT)
+                             .ofType(YOUTUBE_ACTIONS.EFFECTS.LOAD_LIST)
                              .map(toPayload)
                              .switchMap(payload => {
                                  let obs = new Subject();
                                  db.find({type: EMBEDTYPES.YOUTUBE}, (err, ret) => {
                                      this.zone.run(() => {
-                                        obs.next({type: YOUTUBE_ACTIONS.LOAD_LIST, payload: {loadedList: ret}});
+                                        obs.next({type: YOUTUBE_ACTIONS.ACTIONS.LOAD_LIST, payload: {loadedList: ret}});
                                         obs = null;
                                      });
                                  });
@@ -55,6 +55,4 @@ export class YoutubeListEffects {
                              });
 
   constructor(private action$: Actions, private zone: NgZone) { }
-
-
 }
