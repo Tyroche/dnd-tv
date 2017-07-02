@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '../state/app-state';
 import { BOOTCAMP_ACTIONS } from '../state/bootcamp-list';
 import { YOUTUBE_ACTIONS } from '../state/youtube-list';
+
+import * as Datastore from 'nedb';
+
+const db = new Datastore({filename: './dnd-tv-db', autoload: true})
 
 @Component({
   selector: 'app-sound',
@@ -24,18 +28,36 @@ export class SoundComponent implements OnInit {
   public embedFramesBootcamp;
   public embedFramesYoutube;
 
-  constructor(private http: Http, private store: Store<AppState>) { }
+  constructor(private http: Http,
+              private store: Store<AppState>,
+              private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.embedFramesBootcamp = this.store.select('bootcampList');
     this.embedFramesYoutube = this.store.select('youtubeList');
+
+    // const testYoutube = {id: '6vCxBQy2SOk'};
+    // db.find(testYoutube, (err, ret) => {
+    //   if (err) console.error(err);
+
+    //   if (ret.length === 0) {
+    //     db.insert(testYoutube);
+    //   }
+    //   else {
+    //     for (let id of ret) {
+    //       console.log("dispatching: ", {type: this.EMBEDTYPES.YOUTUBE, payload: {id: id.id, type: this.EMBEDTYPES.YOUTUBE}})
+    //       this.store.dispatch({type: YOUTUBE_ACTIONS.ADD_MEMBER, payload: {id: id.id, type: this.EMBEDTYPES.YOUTUBE}});
+    //     }
+    //     this.cd.detectChanges();
+    //   }
+    // });
   }
 
   public addFrame(info: string, embedType: string) {
     const embedData = this.extractEmbedData(info, embedType);
 
     if (embedData) {
-      const actionType = embedData.type === this.EMBEDTYPES.BOOTCAMP 
+      const actionType = embedData.type === this.EMBEDTYPES.BOOTCAMP
                          ? BOOTCAMP_ACTIONS.ADD_MEMBER
                          : YOUTUBE_ACTIONS.ADD_MEMBER;
       this.store.dispatch({type: actionType, payload: embedData});

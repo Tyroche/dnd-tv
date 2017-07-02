@@ -23,11 +23,13 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "@ngrx/core": "^1.2.0",
+    "@ngrx/effects": "^2.0.3",
     "@ngrx/store": "^2.2.2",
     "core-js": "^2.4.1",
     "electron": "^1.6.11",
     "electron-reload": "^1.2.1",
     "mongodb": "^2.2.29",
+    "nedb": "^1.8.0",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },
