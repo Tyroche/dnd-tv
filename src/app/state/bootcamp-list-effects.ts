@@ -6,7 +6,10 @@ import { BOOTCAMP_ACTIONS } from './bootcamp-list';
 
 import * as Datastore from 'nedb';
 
-const db = new Datastore({filename: './dnd-tv-db', autoload: true})
+declare var __dirname;
+const db = new Datastore({filename: __dirname + './dnd-tv-db', autoload: true})
+
+console.log(__dirname);
 
 const EMBEDTYPES = {
     BOOTCAMP: 'bootcamp',
