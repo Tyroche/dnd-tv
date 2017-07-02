@@ -16,6 +16,7 @@ import { initiativeListReducer } from './state/initiative-list';
 import { bootcampListReducer } from './state/bootcamp-list';
 import { youtubeListReducer } from './state/youtube-list';
 import { YoutubeListEffects } from './state/youtube-list-effects';
+import { BootcampListEffects } from './state/bootcamp-list-effects';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { YoutubeListEffects } from './state/youtube-list-effects';
       bootcampList: bootcampListReducer,
       youtubeList: youtubeListReducer
     }),
-    EffectsModule.runAfterBootstrap(YoutubeListEffects)
+    EffectsModule.run(YoutubeListEffects),
+    EffectsModule.run(BootcampListEffects)
   ],
   providers: [],
   bootstrap: [AppComponent]

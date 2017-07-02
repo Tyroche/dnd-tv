@@ -31,6 +31,7 @@ export class SoundComponent implements OnInit {
     this.embedFramesBootcamp = this.store.select('bootcampList');
     this.embedFramesYoutube = this.store.select('youtubeList');
 
+    this.store.dispatch({type: BOOTCAMP_ACTIONS.EFFECTS.LOAD_LIST});
     this.store.dispatch({type: YOUTUBE_ACTIONS.EFFECTS.LOAD_LIST});
   }
 
@@ -39,7 +40,7 @@ export class SoundComponent implements OnInit {
 
     if (embedData) {
       const actionType = embedData.type === this.EMBEDTYPES.BOOTCAMP
-                         ? BOOTCAMP_ACTIONS.ADD_MEMBER
+                         ? BOOTCAMP_ACTIONS.EFFECTS.SAVE_MEMBER
                          : YOUTUBE_ACTIONS.EFFECTS.SAVE_MEMBER;
       this.store.dispatch({type: actionType, payload: embedData});
     }
