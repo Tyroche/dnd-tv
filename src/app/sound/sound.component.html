@@ -15,7 +15,7 @@
     (keyup.enter)="addFrame(youtubeInput, EMBEDTYPES.YOUTUBE); youtubeInput = ''"/>
 </div>
 <div class="row">
-    <div *ngFor="let embed of embedFramesYoutube | async" class="col-xs-3">
+    <div class="col-xs-6" *ngFor="let embed of embedFramesYoutube | async">
         <app-youtube-embed [id]="embed.id"></app-youtube-embed>
     </div>
 </div>

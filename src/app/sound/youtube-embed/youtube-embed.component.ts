@@ -19,6 +19,7 @@ export class YoutubeEmbedComponent implements OnInit {
     if (!this.id) {
       this.errorOccured = true;
     } else {
+      console.log(this.id);
       this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${this.id}?ecver=2`);
     }
   }
