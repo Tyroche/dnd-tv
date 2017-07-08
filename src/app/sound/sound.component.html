@@ -6,7 +6,10 @@
     <input id="bootcamp-embed" class="form-control" [(ngModel)]="bootcampInput" type="text" 
     (keyup.enter)="addFrame(bootcampInput, EMBEDTYPES.BOOTCAMP); bootcampInput = ''"/>
 </div>
-<app-bootcamp-embed *ngFor="let embed of embedFramesBootcamp | async" [album]="embed.album" [song]="embed.song"></app-bootcamp-embed>
+<app-bootcamp-embed *ngFor="let embed of embedFramesBootcamp | async" 
+                    [album]="embed.album" 
+                    [song]="embed.song"
+                    (remove)="removeFrame($event)"></app-bootcamp-embed>
 
 <h3>Youtube</h3>
 <div class="form-group">

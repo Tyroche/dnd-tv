@@ -46,13 +46,17 @@ export class SoundComponent implements OnInit {
     }
   }
 
+  public removeFrame(data) {
+    this.store.dispatch({type: BOOTCAMP_ACTIONS.EFFECTS.DELETE_MEMBER, payload: data})
+  }
+
   private extractEmbedData(data: string, embedType: string) {
     switch (embedType) {
       case this.EMBEDTYPES.BOOTCAMP:
         const album = data.match(/album=(\d+)/);
-        const song = data.match(/track=(\d+)/);
+        const song = data.match(/track=(\d+)/) || [null, null];
 
-        if (!album || !song) return;
+        if (!album && !song) return;
         return {
           album: album[1],
           song: song[1],

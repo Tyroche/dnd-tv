@@ -4,12 +4,7 @@ import {Observable, Subject} from 'rxjs';
 
 import { BOOTCAMP_ACTIONS } from './bootcamp-list';
 
-import * as Datastore from 'nedb';
-
-declare var __dirname;
-const db = new Datastore({filename: __dirname + './dnd-tv-db', autoload: true})
-
-console.log(__dirname);
+import { db } from '../services/datastore';
 
 const EMBEDTYPES = {
     BOOTCAMP: 'bootcamp',
@@ -39,6 +34,20 @@ export class BootcampListEffects {
                                              });
                                          });
                                      }
+                                 });
+                                 return obs;
+                             });
+
+    @Effect() deleteMemberRemove$ = this.action$
+                             .ofType(BOOTCAMP_ACTIONS.EFFECTS.DELETE_MEMBER)
+                             .map(toPayload)
+                             .switchMap(payload => {
+                                 let obs = new Subject();
+                                 console.log("delete");
+                                 db.remove(payload, (err, count) => {
+                                     console.log(count);
+                                    obs.next({type: BOOTCAMP_ACTIONS.ACTIONS.REMOVE_MEMBER, payload: payload});
+                                    obs = null;
                                  });
                                  return obs;
                              });

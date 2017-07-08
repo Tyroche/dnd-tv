@@ -9,7 +9,8 @@ export const BOOTCAMP_ACTIONS = {
     },
     EFFECTS: {
         LOAD_LIST: 'BOOTCAMP_LOAD_LIST_EFFECT',
-        SAVE_MEMBER: 'BOOTCAMP_SAVE_MEMBER_EFFECT'
+        SAVE_MEMBER: 'BOOTCAMP_SAVE_MEMBER_EFFECT',
+        DELETE_MEMBER: 'BOOTCAMP_DELETE_MEMBER_EFFECT'
     }
 }
 
@@ -20,7 +21,11 @@ export function bootcampListReducer(state = [], action: Action) {
             return [...state, action.payload];
 
         case BOOTCAMP_ACTIONS.ACTIONS.REMOVE_MEMBER:
-            return state.filter(s => s.song !== action.payload.song);
+            if (action.payload.song) {
+                return state.filter(s => s.song !== action.payload.song);
+            } else {
+                return state.filter(s => s.album !== action.payload.album);
+            }
 
         case BOOTCAMP_ACTIONS.ACTIONS.CLEAR_LIST:
             return [];
